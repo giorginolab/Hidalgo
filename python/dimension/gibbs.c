@@ -5,6 +5,7 @@
 #include <math.h>
 #include "arrayobject.h"
 #include "gibbs.h"
+//#include <ctime>
 
 /* #### Globals #################################### */
 
@@ -152,9 +153,14 @@ static PyObject *GibbsSampling(PyObject *self, PyObject *args)
 	double f1[2];
 
 	/*************** INITIALIZE PARAMETERS *************************************************************************************/
-
-	srand(10000 * replica);
-
+	int seed_chosen=124;
+	//srand(10009 * replica);
+	srand(seed_chosen);
+	printf("%s","\n");
+	printf("%s","seed chosen: ");
+	printf("%d",  seed_chosen);
+	printf("%s","\n\n");
+	//srand(time(NULL));
 	int i, j, k;
 
 	for (k = 0; k < K; k++)
