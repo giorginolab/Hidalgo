@@ -153,7 +153,7 @@ static PyObject *GibbsSampling(PyObject *self, PyObject *args)
 	double f1[2];
 
 	/*************** INITIALIZE PARAMETERS *************************************************************************************/
-	int seed_chosen=124;
+	int seed_chosen=time(NULL);
 	//srand(10009 * replica);
 	srand(seed_chosen);
 	printf("%s","\n");

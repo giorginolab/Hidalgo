@@ -19,12 +19,17 @@ class hidalgo:
         c=None,
         f=None,
     ):
-
+        
         a = np.ones(K)
-        a = np.ones(K)
-        a = np.ones(K)
-        a = np.ones(K)
-
+        b = np.ones(K)
+        c = np.ones(K)
+        f = np.ones(K)
+        '''
+        a = np.random.rand(K)*10
+        b = np.random.rand(K)*10
+        c = np.random.rand(K)*10
+        f = np.random.rand(K)*10
+        '''
         self.metric = metric
         self.K = K
         self.zeta = zeta
@@ -32,10 +37,17 @@ class hidalgo:
         self.Niter = Niter
         self.burn_in = burn_in
         self.Nreplicas = Nreplicas
+        '''
         self.a = self._init_priors(K, a)
         self.b = self._init_priors(K, b)
         self.c = self._init_priors(K, c)
         self.f = self._init_priors(K, f)
+        '''
+        self.a = a
+        self.b = b
+        self.c = c
+        self.f = f
+        
         self._nbrs = None
         self._fitted = False
 

@@ -13,6 +13,8 @@ import random
 n_clusters=int(sys.argv[1])
 punti=int(sys.argv[2])
 filled_cols=int(sys.argv[3])
+replicas=int(sys.argv[4])
+
 #df=pd.read_csv(filename, sep=' ').head(6000).tail(1000)
 
 # prove
@@ -45,23 +47,24 @@ uni=pd.concat([uni1, uni2.reindex(uni1.index)], axis=1)
 
 K_hid = n_clusters
 #K_hid = 4
-q_hid = 3 
-
+#q_hid = 5
+q_hid = 3
 X=np.asarray(gau)
+print(X)
 #X=np.asarray(uni)
 
 ############## run Hidalgo ##################################################################
-n_iter=100000
+n_iter=22000
 #n_iter=50000 #right
 burnin=0.10
-model = hidalgo(K=K_hid, Niter=n_iter, q=q_hid, burn_in=burnin, zeta=0.75) 
+#model = hidalgo(K=K_hid, Niter=n_iter, q=q_hid, burn_in=burnin, zeta=0.75) 
+model=hidalgo(K=K_hid,Niter=n_iter,zeta=0.80,q=q_hid,Nreplicas=replicas,burn_in=burnin)
 
 # model=hidalgo(K=2,Niter=2000,zeta=0.65,q=5,Nreplicas=10,burn_in=0.8)
 
 
 model.fit(X)
 print('d: ',model.d_,', derr: ', model.derr_) #ID of each of the clusters
-
 
 '''
 with open('likelihood.csv', 'a', newline='') as output:
@@ -73,6 +76,9 @@ with open('likelihood.csv', 'a', newline='') as output:
 plt.plot(model.V, marker='o', markeredgecolor='black', markeredgewidth=0.1, linewidth=0)
 plt.show()
 
+print(model.V.mean())
+print(np.median(model.V))
+print(np.quantile(model.V,0.25))
 '''
 with open('prove_gau/2000/gau_colonne_' + str(filled_cols) + '.csv', 'w', newline='') as output:
     output.write('Mean Median StdDev \n')

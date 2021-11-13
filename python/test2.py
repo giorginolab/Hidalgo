@@ -12,17 +12,18 @@ filename = str(sys.argv[1])
 onetwothree=int(sys.argv[2])
 n_clusters=int(sys.argv[3])
 n_replicas=int(sys.argv[4])
+filename='MIX.csv'
 
+df=pd.read_csv(filename, sep=',', header=0)#.tail(2310)
 
-df=pd.read_csv(filename, sep=' ').tail(1000)
-df1=(df.drop(['RG', 'n_contacts'], axis=1))
-
+df1=(df.drop(['indice','Cluster'], axis=1))
+print(df1)
 print('n_punti: ', len(df1))
 K_hid = n_clusters
 q_hid = 3 
 
 ################
-print(len(df))
+print(len(df1))
 print('quanti nan: ',df1.isnull().sum().sum())
 
 rows_with_nan = []
@@ -31,13 +32,14 @@ for index, row in df.iterrows():
     if is_nan_series.any():
         rows_with_nan.append(index)
 
-print(rows_with_nan)
+#print(rows_with_nan)
 ###############
 
 X=np.asarray(df1)
+print(X)
 
 ############## run Hidalgo ##################################################################
-n_iter=20000
+n_iter=10000
 burnin=0.10
 
 #model = hidalgo(K=K_hid, Niter=n_iter, q=q_hid, burn_in=burnin, zeta=0.75) 
@@ -53,28 +55,20 @@ with open('likelihood.csv', 'a', newline='') as output:
     output.write(str(K_hid) + ' ' + str(model.lik_)) #ID of each of the clusters
     output.write('\n')
 '''
-'''
+
 plt.plot(model.V, marker='o', markeredgecolor='black', markeredgewidth=0.1, linewidth=0)
 #plt.scatter(df.n_contacts, model.V)
 plt.show()
+
 '''
-
-
-result= re.search('num(.*)k', filename)
-x=result.group(1)
-result1 = re.search('temp300.0_(.*)_dist', filename)
-x1=result1.group(1)
-print(x)
-print(x1)
-
-with open('/home/cristiano/Hidalgo/python/output/N/N_' + x + '_'+ x1+ '.csv', 'w', newline='') as output:
+with open('/home/cristiano/Hidalgo/python/cart_T_300_0.csv', 'w', newline='') as output:
     output.write('Mean Median StdDev \n')
     for i in range(len(model.V)):
         output.write(str(model.V[i])+ ' ')
         output.write(str(model.Vmedian[i])+ ' ')
         output.write(str(model.Vstd[i]))
         output.write('\n')
-
+'''
 '''
 D = euclidean_distances(X)
 
